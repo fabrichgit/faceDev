@@ -22,7 +22,7 @@ model Users {
   id         String     @id @default(cuid()) @map("_id")
   name       String?
   email      String?    @unique
-  Pseudo     String     @unique
+  Pseudo     String?     @unique
   Links      Json[]
   createdAt  DateTime   @default(now()) @map(name: "created_at")
   updatedAt  DateTime   @updatedAt @map(name: "updated_at")
@@ -32,6 +32,7 @@ model Users {
   Comment    Comment[]
   Like       Like[]
   isAprouved Boolean    @default(false)
+  password   String
 }
 
 enum CategoryProject {

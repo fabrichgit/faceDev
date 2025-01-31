@@ -1,11 +1,9 @@
 // pages/api/route.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../../prisma/seed';
+import { Handler } from '../type';
 
-// Définition des types pour les handlers
-type Handler = (req: NextApiRequest, res: NextApiResponse) => Promise<void> | void;
-
-const handlers: Record<string, Handler> = {
+const handlers: Handler = {
   POST: async (req, res) => {
     const user = req.body;
 
