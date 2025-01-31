@@ -1,11 +1,11 @@
-import { NextApiRequest } from "next";
+import { NextApiRequest, NextApiResponse } from "next";
 import jwt from "jsonwebtoken";
 import { db } from "../../../../prisma/seed";
 import { Users } from "@prisma/client";
 
 import("dotenv").then(dot => dot.config());
 
-export const authMiddleware = async (req: NextApiRequest): Promise<Users> => {
+export const authMiddleware = async (req: NextApiRequest, res: NextApiResponse): Promise<Users | undefined> => {
     const token = req.headers.authorization;
 
     if (!token) {
@@ -28,7 +28,7 @@ export const authMiddleware = async (req: NextApiRequest): Promise<Users> => {
         throw new Error("user not found")
 
     } catch (err) {
-        throw new Error(JSON.stringify(err));
+        res.status(404).json({message: "Unauthorized", content: err})
     }
 };
 

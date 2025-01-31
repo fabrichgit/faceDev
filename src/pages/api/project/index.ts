@@ -41,7 +41,7 @@ const handlers: Handler = {
         const data: Omit<Projects , ProjectOmitedProps> = req.body
 
         try {
-            const {id} = await authMiddleware(req)
+            const {id} = await authMiddleware(req, res)
 
             const created = await db.projects.create({
                 data: {
@@ -59,7 +59,7 @@ const handlers: Handler = {
         const data: Partial<Omit<Projects , ProjectOmitedProps>> = req.body
 
         try {
-            const {id: userId} = await authMiddleware(req)
+            const {id: userId} = await authMiddleware(req, res)
 
             const updated = await db.projects.update({
                 data,

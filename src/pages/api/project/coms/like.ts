@@ -9,19 +9,13 @@ const handlers: Handler = {
         const id = req.query["id"]
 
         try {
-            const projects = await db.projects.findUnique({
+            const coms = await db.projects.findUnique({
                 where: {
-                    id: id as string
+                    id: id as string,
                 },
-                include: {
-                    star: {
-                        include: {
-                            user: true
-                        }
-                    },
+                select: {
                     comment: {
                         include: {
-                            user: true,
                             like: {
                                 include: {
                                     user: true
@@ -32,7 +26,7 @@ const handlers: Handler = {
                 }
             })
 
-            res.status(200).json(projects)
+            res.status(200).json(coms)
         } catch (error) {
             res.status(500).json(error)
         }

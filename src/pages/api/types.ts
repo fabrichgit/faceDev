@@ -1,6 +1,7 @@
+import { JwtPayload } from "jsonwebtoken";
 import { NextApiRequest, NextApiResponse } from "next";
 
-export type Handler = Record<string | "POST" | "PUT" | "GET", (req: NextApiRequest, res: NextApiResponse) => Promise<void> | void>;
+export type Handler = Record<string | "POST" | "PUT" | "GET", (req: NextApiRequest, res: NextApiResponse, payload?: JwtPayload | null | undefined) => Promise<void> | void>;
 
 export type UserOmitedProps = "id" | "links" | "createdAt" | "createdAt" | "updatedAt" | "posts" | "projects" | "star" | "comment" | "like" | "password" | "skill"
 
