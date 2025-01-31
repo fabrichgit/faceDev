@@ -17,6 +17,15 @@ model Blog {
   user      Users?  @relation(fields: [userId], references: [id])
   userId    String?
   tag       String?
+  View      View[]
+}
+
+model View {
+  id      String @id @default(cuid())
+  blog    Blog   @relation(fields: [blogId], references: [id])
+  blogId  String
+  user    Users  @relation(fields: [usersId], references: [id])
+  usersId String
 }
 
 model Users {
@@ -36,6 +45,7 @@ model Users {
   password   String
   skill      Skill[]
   catalogue  String?
+  View       View[]
 }
 
 enum CategoryProject {
