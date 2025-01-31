@@ -17,7 +17,6 @@ const handlers: Handler = {
 
             res.status(200).json({ token });
         } catch (error) {
-            console.error("Erreur Prisma : ", error);
             res.status(500).json(error)
         }
     },
