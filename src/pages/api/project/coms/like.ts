@@ -1,68 +1,37 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../../../prisma/seed';
 import { Handler } from '../../types';
-import { Projects, Users } from '@prisma/client';
 import { authMiddleware } from '../../middleware/jwt';
 
 const handlers: Handler = {
-    GET: async (req, res) => {
-        const id = req.query["id"]
+    PUT: async (req, res, payload) => {
+        const commentId = req.query["commentId"] as string
+        const status = req.query["status"] as "like" | "unlike"
 
         try {
-            const coms = await db.projects.findUnique({
-                where: {
-                    id: id as string,
-                },
-                select: {
-                    comment: {
-                        include: {
-                            like: {
-                                include: {
-                                    user: true
-                                }
-                            }
+            switch (status) {
+                case 'like':
+                    const like = await db.like.create({
+                        data: {
+                            commentId,
+                            userId: payload.id
                         }
-                    }
-                }
-            })
-
-            res.status(200).json(coms)
-        } catch (error) {
-            res.status(500).json(error)
-        }
-    },
-    POST: async (req, res) => {
-        const data: Omit<Projects , ProjectOmitedProps> = req.body
-
-        try {
-            const {id} = await authMiddleware(req)
-
-            const created = await db.projects.create({
-                data: {
-                    ...data,
-                    userId: id
-                }
-            })
-            res.status(200).json(created)
-        } catch (error) {
-            res.status(500).json(error)
-        }
-    },
-    PUT: async (req, res) => {
-        const id = req.query["id"]
-        const data: Partial<Omit<Projects , ProjectOmitedProps>> = req.body
-
-        try {
-            const {id: userId} = await authMiddleware(req)
-
-            const updated = await db.projects.update({
-                data,
-                where: {
-                    userId,
-                    id: id as string
-                }
-            })
-            res.status(200).json(updated)
+                    })
+                    res.status(200).json(like)
+                    break;
+                case 'unlike':
+                    const unlike = await db.like.deleteMany({
+                        where: {
+                            commentId,
+                            userId: payload.id
+                        }
+                    })
+                    res.status(200).json(unlike)
+                default:
+                    res.status(400)
+                    break;
+            }
+            
         } catch (error) {
             res.status(500).json(error)
         }
@@ -75,7 +44,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const handle = handlers[method as keyof typeof handlers];
 
     if (handle) {
-        return handle(req, res);
+        const payload = await authMiddleware(req, res)!
+        return handle(req, res, payload!);
     }
 
     res.setHeader('Allow', Object.keys(handlers));

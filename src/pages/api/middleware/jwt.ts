@@ -5,15 +5,19 @@ import { Users } from "@prisma/client";
 
 import("dotenv").then(dot => dot.config());
 
+export interface Payload {
+    id: string;
+}
+
 export const authMiddleware = async (req: NextApiRequest, res: NextApiResponse): Promise<Users | undefined> => {
     const token = req.headers.authorization;
 
-    if (!token) {
-        throw new Error("Accès non autorisé, token manquant");
-    }
-
     try {
-        const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET || "") as { id: string };
+        if (!token) {
+            throw new Error("Accès non autorisé, token manquant");
+        }
+        
+        const decoded = jwt.verify(token.replace("Bearer ", ""), process.env.JWT_SECRET || "") as Payload;
 
         const user = await db.users.findUnique({
             where: {

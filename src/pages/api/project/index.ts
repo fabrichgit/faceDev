@@ -37,16 +37,15 @@ const handlers: Handler = {
             res.status(500).json(error)
         }
     },
-    POST: async (req, res) => {
+    POST: async (req, res, payload) => {
         const data: Omit<Projects , ProjectOmitedProps> = req.body
 
         try {
-            const {id} = await authMiddleware(req, res)
 
             const created = await db.projects.create({
                 data: {
                     ...data,
-                    userId: id
+                    userId: payload.id
                 }
             })
             res.status(200).json(created)
@@ -54,17 +53,16 @@ const handlers: Handler = {
             res.status(500).json(error)
         }
     },
-    PUT: async (req, res) => {
+    PUT: async (req, res, payload) => {
         const id = req.query["id"]
         const data: Partial<Omit<Projects , ProjectOmitedProps>> = req.body
 
         try {
-            const {id: userId} = await authMiddleware(req, res)
 
             const updated = await db.projects.update({
                 data,
                 where: {
-                    userId,
+                    userId: payload.id,
                     id: id as string
                 }
             })
@@ -81,7 +79,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const handle = handlers[method as keyof typeof handlers];
 
     if (handle) {
-        return handle(req, res);
+        const payload = await authMiddleware(req, res)!
+        return handle(req, res, payload!);
     }
 
     res.setHeader('Allow', Object.keys(handlers));
