@@ -5,7 +5,7 @@ import { Users } from "@prisma/client";
 
 import("dotenv").then(dot => dot.config());
 
-export const authMiddleware = async (req: NextApiRequest): Promise<Error | Users> => {
+export const authMiddleware = async (req: NextApiRequest): Promise<Users> => {
     const token = req.headers.authorization;
 
     if (!token) {

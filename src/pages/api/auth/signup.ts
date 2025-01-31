@@ -1,7 +1,7 @@
 // pages/api/route.ts
 import { NextApiRequest, NextApiResponse } from 'next';
 import { db } from '../../../../prisma/seed';
-import { Handler } from '../type';
+import { Handler } from '../types';
 
 const handlers: Handler = {
   POST: async (req, res) => {

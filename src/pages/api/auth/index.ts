@@ -1,6 +1,6 @@
 // pages/api/route.ts
 import { NextApiRequest, NextApiResponse } from 'next';
-import { Handler } from '../type';
+import { Handler } from '../types';
 import { authMiddleware } from '../middleware/jwt';
 
 const handlers: Handler = {
