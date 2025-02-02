@@ -14,7 +14,7 @@ function Tabs() {
     const [tab, setTab] = useQueryState('tab')
 
     return (
-        <div className="relative flex flex-col bg-black/70 rounded-lg p-6">
+        <div className="relative flex flex-col rounded-lg p-6">
             {/* Sidebar */}
             <div className="w-full">
                 <div>
@@ -60,7 +60,7 @@ function Tabs() {
             </div>
             {/* Main Content */}
             <div className="flex-1">
-                <div className="w-full rounded-lg bg-black/80 border border-blue-600 block p-7 shadow-sm shadow-blue-500">
+                <div className="w-full rounded-lg bg-black/50  border-blue-600 block p-7 shadow-sm shadow-blue-500">
                     <Markdown className="prose prose-lg w-full block">
                         {`
 # Hello, world!

@@ -79,3 +79,40 @@ body {
 .prose h6 {
   @apply text-blue-500;
 }
+
+.pro:hover .pro1{
+  transform: translateY(-50%) translateX(-70%) rotate(360deg);
+}
+
+.pro:hover .pro2{
+  transform: translateY(120%) translateX(25%) rotate(360deg);
+}
+
+.pro:hover .pro3{
+  transform: translateY(-70%) translateX(50%) rotate(360deg);
+}
+
+.line{
+  animation: line 13s linear infinite;
+}
+
+@keyframes line {
+  from{
+    transform: translateX(-100%);
+  }
+  to{
+    transform: translateX(100%);
+  }
+}
+
+.pattern-dots {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.pattern-grid {
+  background-image: 
+  linear-gradient(rgba(30, 187, 166, 0.07) 2px, transparent 2px),
+  linear-gradient(90deg, rgba(187, 235, 228, 0.07) 2px, transparent 2px);
+  background-size: 32px 32px;
+}
