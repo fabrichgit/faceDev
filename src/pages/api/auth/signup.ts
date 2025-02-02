@@ -1,5 +1,5 @@
-// pages/api/route.ts
-import { NextApiRequest, NextApiResponse } from 'next';
+import bcrypt from "bcrypt"
+import { NextApiRequest, NextApiResponse } from 'next';1
 import { db } from '../../../../prisma/seed';
 import { Handler } from '../types';
 
@@ -8,6 +8,8 @@ const handlers: Handler = {
     const user = req.body;
 
     try {
+      user.password = bcrypt.hashSync(user.password, 10)
+
       await db.users.create({
         data: user
       })
@@ -26,7 +28,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   const handle = handlers[method as keyof typeof handlers];
 
   if (handle) {
-    return handle(req, res);
+    return handle(req, res, {id: ""});
   }
 
   res.setHeader('Allow', Object.keys(handlers));

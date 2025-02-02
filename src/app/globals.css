@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+*{
+  scroll-behavior: smooth;
+}
+
+aside{
+  scrollbar-width: thin;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -18,4 +26,56 @@ body {
   color: var(--foreground);
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* globals.css ou style global dans Next.js */
+.custom-perspective {
+  perspective: 1000px;
+}
+.custom-transform {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.perspective {
+  perspective: 1000px;
+}
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+}
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+/* 
+*::-webkit-scrollbar-track{
+  background: black;
+}
+
+*::-webkit-scrollbar-thumb{
+  background: white;
+  border-radius: 5rem;
+}
+*::-webkit-scrollbar{
+  width: 3px;
+} */
+
+.prose, .prose * {
+  @apply text-neutral-300;
+}
+
+.prose h1,
+.prose h2,
+.prose h3,
+.prose h4,
+.prose h5,
+.prose h6 {
+  @apply text-blue-500;
 }

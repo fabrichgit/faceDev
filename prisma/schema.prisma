@@ -30,12 +30,11 @@ model View {
 
 model Users {
   id         String     @id @default(cuid())
-  name       String?
-  email      String?    @unique
+  name       String     @unique
+  email      String     @unique
   pseudo     String?    @unique
+  proffesion String[]
   links      Json[]
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
   blog       Blog[]
   projects   Projects[]
   star       Star[]
@@ -46,6 +45,8 @@ model Users {
   skill      Skill[]
   catalogue  String?
   View       View[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 enum CategoryProject {
@@ -73,6 +74,7 @@ model Projects {
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt
   available   Boolean         @default(true)
+  isFavorte   Boolean         @default(false)
 }
 
 model Star {
